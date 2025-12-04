@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afiliados - EmiPay</title>
+    <script src="../components/navbar.js"></script>
+    <script src="../components/footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .page-title {
+            font-size: 1.875rem;
+            color: #fff;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 200, 83, 0.3);
+        }
+        
+        .affiliate-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: #111;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00c853;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .program-config {
+            background: #111;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid #333;
+            margin-bottom: 2rem;
+        }
+        
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .config-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .config-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .config-label {
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        
+        .config-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .affiliates-list {
+            background: #111;
+            border-radius: 0.75rem;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        
+        .list-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: 1rem 1.5rem;
+            background: #0d0d0d;
+            border-bottom: 1px solid #333;
+            font-weight: 600;
+            color: #9ca3af;
+        }
+        
+        .list-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #333;
+            align-items: center;
+        }
+        
+        .list-row:last-child {
+            border-bottom: none;
+        }
+        
+        .affiliate-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .affiliate-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 600;
+        }
+        
+        .affiliate-name {
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+        
+        .affiliate-email {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .commission-amount {
+            font-weight: 600;
+            color: #00c853;
+        }
+        
+        .conversion-rate {
+            text-align: center;
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 200, 83, 0.1);
+            color: #00c853;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .empty-icon {
+            width: 4rem;
+            height: 4rem;
+            background: rgba(0, 200, 83, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: #00c853;
+        }
+        
+        .empty-title {
+            font-size: 1.25rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-description {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+        }
+        
+        .share-section {
+            background: #111;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid #333;
+            margin-top: 2rem;
+        }
+        
+        .share-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        
+        .share-link {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .link-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            background: #0a0a0a;
+            color: #fff;
+            font-family: monospace;
+        }
+        
+        .btn-copy {
+            padding: 0.75rem 1.5rem;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-copy:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body>
+    <emi-navbar></emi-navbar>
+    
+    <div class="dashboard-container">
+        <div class="page-header">
+            <h1 class="page-title">Programa de Afiliados</h1>
+            <button class="btn-primary" onclick="configureProgram()">
+                <i data-feather="settings"></i>
+                Configurar Programa
+            </button>
+        </div>
+        
+        <div class="affiliate-stats">
+            <div class="stat-card">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Afiliados Ativos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">R$ 2.847</div>
+                <div class="stat-label">Comissões Geradas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">84</div>
+                <div class="stat-label">Vendas por Afiliados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">12%</div>
+                <div class="stat-label">Taxa de Conversão</div>
+            </div>
+        </div>
+        
+        <div class="program-config">
+            <div class="config-header">
+                <div class="config-title">Configurações do Programa</div>
+            </div>
+            <div class="config-grid">
+                <div class="config-item">
+                    <div class="config-label">Comissão por Venda</div>
+                    <div class="config-value">30%</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Cookie Duration</div>
+                    <div class="config-value">60 dias</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Pagamento Mínimo</div>
+                    <div class="config-value">R$ 50,00</div>
+                </div>
+                <div class="config-item">
+                    <div class="config-label">Status do Programa</div>
+                    <div class="config-value" style="color: #00c853;">Ativo</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="affiliates-list">
+            <div class="list-header">
+                <div>Afiliado</div>
+                <div>Vendas</div>
+                <div>Comissão</div>
+                <div>Conversão</div>
+                <div>Status</div>
+            </div>
+            
+            <div id="affiliatesList">
+                <!-- Afiliados carregados via JavaScript -->
+            </div>
+        </div>
+        
+        <div class="share-section">
+            <div class="share-title">Link de Afiliado para Compartilhar</div>
+            <div class="share-link">
+                <input type="text" class="link-input" id="affiliateLink" 
+                       value="https://emipay.com/ref/ABC123" readonly>
+                <button class="btn-copy" onclick="copyAffiliateLink()">
+                    <i data-feather="copy"></i>
+                    Copiar
+                </button>
+            </div>
+            <p style="color: #9ca3af; font-size: 0.875rem;">
+                Compartilhe este link com seus afiliados. Cada venda através deste link gerará comissão.
+            </p>
+        </div>
+    </div>
+    
+    <emi-footer></emi-footer>
+    
+    <script>
+        // Dados de exemplo
+        const affiliates = [
+            {
+                id: 1,
+                name: "João Silva",
+                email: "joao.afiliado@email.com",
+                sales: 28,
+                commission: 847.50,
+                conversion: "15%",
+                status: "active",
+                joinDate: "2024-01-10"
+            },
+            {
+                id: 2,
+                name: "Maria Santos",
+                email: "maria.afiliado@email.com",
+                sales: 42,
+                commission: 1247.00,
+                conversion: "22%",
+                status: "active",
+                joinDate: "2024-01-05"
+            },
+            {
+                id: 3,
+                name: "Pedro Costa",
+                email: "pedro.afiliado@email.com",
+                sales: 14,
+                commission: 397.00,
+                conversion: "8%",
+                status: "active",
+                joinDate: "2024-01-15"
+            }
+        ];
+        
+        function renderAffiliates() {
+            const list = document.getElementById('affiliatesList');
+            
+            if (affiliates.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i data-feather="users"></i>
+                        </div>
+                        <h3 class="empty-title">Nenhum afiliado cadastrado</h3>
+                        <p class="empty-description">Compartilhe seu link de afiliado para começar a receber indicações</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = affiliates.map(affiliate => `
+                <div class="list-row">
+                    <div class="affiliate-info">
+                        <div class="affiliate-avatar">
+                            ${affiliate.name.split(' ').map(n => n[0]).join('')}
+                        </div>
+                        <div>
+                            <div class="affiliate-name">${affiliate.name}</div>
+                            <div class="affiliate-email">${affiliate.email}</div>
+                        </div>
+                    </div>
+                    <div>${affiliate.sales}</div>
+                    <div class="commission-amount">R$ ${affiliate.commission.toFixed(2)}</div>
+                    <div>
+                        <span class="conversion-rate">${affiliate.conversion}</span>
+                    </div>
+                    <div style="color: #00c853;">Ativo</div>
+                </div>
+            `).join('');
+            
+            setTimeout(() => {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+            }, 100);
+        }
+        
+        function configureProgram() {
+            alert('Abrir configurações do programa de afiliados');
+        }
+        
+        function copyAffiliateLink() {
+            const linkInput = document.getElementById('affiliateLink');
+            linkInput.select();
+            document.execCommand('copy');
+            alert('Link copiado para a área de transferência!');
+        }
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', renderAffiliates);
+    </script>
+</body>
+</html>

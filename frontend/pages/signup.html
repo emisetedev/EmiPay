@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - EmiPay</title>
+    <script src="../components/navbar.js"></script>
+    <script src="../components/footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .signup-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+        }
+        
+        .signup-card {
+            background: #111;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            border: 1px solid #333;
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #00c853, #69f0ae);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+            text-align: center;
+        }
+        
+        .subtitle {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            background: #0a0a0a;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #00c853;
+            box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.1);
+        }
+        
+        .btn-signup {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            color: #000;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 200, 83, 0.3);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .link {
+            color: #00c853;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .link:hover {
+            color: #69f0ae;
+        }
+        
+        .plan-badge {
+            display: inline-block;
+            background: rgba(0, 200, 83, 0.1);
+            color: #00c853;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            margin-left: 0.5rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <emi-navbar></emi-navbar>
+    
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="logo">EmiPay</div>
+            <h1>Criar sua conta</h1>
+            <p class="subtitle">Comece a vender seus produtos digitais em minutos</p>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="name">Nome completo</label>
+                    <input type="text" id="name" name="name" required placeholder="Seu nome completo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required placeholder="Mínimo 8 caracteres">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar senha</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Digite novamente sua senha">
+                </div>
+                
+                <div class="form-group">
+                    <label for="company_name">Nome da empresa (opcional)</label>
+                    <input type="text" id="company_name" name="company_name" placeholder="Nome da sua empresa">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input type="text" id="phone" name="phone" placeholder="(11) 91234-5678">
+                </div>
+
+                <div class="form-group">
+                    <label for="document_type">Tipo de documento</label>
+                    <select id="document_type" name="document_type">
+                        <option value="cpf">CPF</option>
+                        <option value="cnpj">CNPJ</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="document">CPF / CNPJ</label>
+                    <input type="text" id="document" name="document" placeholder="Somente números">
+                </div>
+                
+                <div class="form-group">
+                    <label for="plan">
+                        Plano escolhido 
+                        <span class="plan-badge" id="planBadge">Free</span>
+                    </label>
+                    <select id="plan" name="plan">
+                        <option value="free">Free - R$ 0/mês</option>
+                        <option value="growth">Growth - R$ 79/mês</option>
+                        <option value="pro">Pro - R$ 197/mês</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-signup">Criar conta gratuita</button>
+            </form>
+            
+            <div class="login-link">
+                Já tem uma conta? <a href="login.html" class="link">Fazer login</a>
+            </div>
+        </div>
+    </div>
+    
+    <emi-footer></emi-footer>
+    
+    <script src="../assets/js/app.js"></script>
+    
+    <script>
+        // Capturar parâmetro do plano da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const plan = urlParams.get('plan');
+        if (plan) {
+            document.getElementById('plan').value = plan;
+            document.getElementById('planBadge').textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+        }
+        
+        // signup handled by global app.js (EmiPayApp). No inline handler here to avoid duplication.
+        
+        setTimeout(() => {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        }, 100);
+    </script>
+</body>
+</html>

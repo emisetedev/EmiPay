@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planos e Preços - EmiPay</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .pricing-hero {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #00c853, #69f0ae);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .solution-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            color: #9ca3af;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            border-color: #00c853;
+            color: #00c853;
+            background: rgba(0, 200, 83, 0.1);
+        }
+
+        .tab-btn:hover:not(.active) {
+            border-color: #666;
+            color: #fff;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .pricing-section {
+            display: none;
+        }
+
+        .pricing-section.active {
+            display: block;
+        }
+
+        .pricing-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: #00c853;
+            box-shadow: 0 10px 30px rgba(0, 200, 83, 0.1);
+        }
+
+        .pricing-card.popular {
+            border-color: #00c853;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f2a1a 100%);
+            transform: scale(1.05);
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            color: #000;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-bottom-left-radius: 0.5rem;
+        }
+
+        .free-badge {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #ff6b00;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-bottom-right-radius: 0.5rem;
+        }
+
+        .plan-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .plan-subtitle {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #00c853;
+        }
+
+        .plan-fees {
+            font-size: 1rem;
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+        }
+
+        .plan-description {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            min-height: 20px;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+            flex-grow: 1;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: #00c853;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #00c853;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid #00c853;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-outline:hover {
+            background: #00c853;
+            color: #000;
+        }
+
+        .checkout-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #00c853;
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #00c853;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+
+        .feature-description {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        .faq-section {
+            padding: 4rem 0;
+            background: #111;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #fff;
+        }
+
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #9ca3af;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-question i {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #00c853, #69f0ae);
+            padding: 4rem 0;
+            text-align: center;
+            color: #000;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-dark {
+            background: #000;
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-dark:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .pricing-card {
+                padding: 2rem;
+            }
+
+            .pricing-card.popular {
+                transform: none;
+            }
+
+            .solution-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <emi-navbar></emi-navbar>
+    <script src="../components/navbar.js"></script>
+
+    <section class="pricing-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Escolha Sua Solução</h1>
+                <p>Oferecemos duas formas de usar o EmiPay: integração via API ou nosso checkout pronto para usar</p>
+            </div>
+
+            <div class="solution-tabs">
+                <button class="tab-btn active" data-tab="checkout">Checkout EmiPay</button>
+                <button class="tab-btn" data-tab="api">API & Integração</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Checkout EmiPay -->
+    <section class="pricing-section active" id="checkout-section">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Checkout EmiPay</h2>
+                <p>Solução pronta para usar, sem necessidade de desenvolvimento. Perfecto para lojas físicas, e-commerces pequenos e vendedores individuais.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- 💳 Checkout Starter -->
+                <div class="pricing-card">
+                    <div class="plan-icon">💳</div>
+                    <div class="plan-name">Checkout Starter</div>
+                    <div class="plan-subtitle">Para pequenos negócios</div>
+                    <div class="plan-price">2,29% <span class="plan-period">+ R$0,49</span></div>
+                    <div class="plan-fees">por transação • Sem mensalidade</div>
+                    
+                    <ul class="features-list">
+                        <li>Até 50 transações/mês</li>
+                        <li>Link de pagamento personalizável</li>
+                        <li>QR Code PIX estático</li>
+                        <li>Checkout responsivo</li>
+                        <li>Dashboard simples</li>
+                        <li>Relatórios básicos</li>
+                        <li>Suporte por e-mail</li>
+                    </ul>
+                    
+                    <a href="signup.html?plan=checkout-starter" class="btn-outline">Começar Agora</a>
+                </div>
+
+                <!-- 🚀 Checkout Pro -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Mais Popular</div>
+                    <div class="free-badge">1 Mês Grátis</div>
+                    <div class="plan-icon">🚀</div>
+                    <div class="plan-name">Checkout Pro</div>
+                    <div class="plan-subtitle">Para negócios em crescimento</div>
+                    <div class="plan-price">1,49% <span class="plan-period">+ R$0,29</span></div>
+                    <div class="plan-fees">por transação • Sem mensalidade</div>
+                    
+                    <ul class="features-list">
+                        <li><strong>Tudo do Starter, e mais:</strong></li>
+                        <li>Transações ilimitadas</li>
+                        <li>Links ilimitados</li>
+                        <li>QR Code PIX dinâmico</li>
+                        <li>Checkout totalmente personalizável</li>
+                        <li>Dashboard completo</li>
+                        <li>Relatórios avançados</li>
+                        <li>Suporte prioritário</li>
+                        <li>Split de pagamento</li>
+                        <li>Cobranças recorrentes</li>
+                        <li>API completa para integrações</li>
+                    </ul>
+                    
+                    <a href="signup.html?plan=checkout-pro" class="btn-primary">Testar Grátis por 1 Mês</a>
+                </div>
+
+                <!-- 👑 Checkout Enterprise -->
+                <div class="pricing-card">
+                    <div class="free-badge">1 Mês Grátis</div>
+                    <div class="plan-icon">👑</div>
+                    <div class="plan-name">Checkout Enterprise</div>
+                    <div class="plan-subtitle">Para grandes volumes</div>
+                    <div class="plan-price">Tarifas Personalizadas</div>
+                    <div class="plan-fees">• 1 mês grátis</div>
+                    
+                    <ul class="features-list">
+                        <li>Transações ilimitadas</li>
+                        <li>Checkout white-label</li>
+                        <li>API com acesso avançado</li>
+                        <li>Suporte 24/7 dedicado</li>
+                        <li>Relatórios customizados</li>
+                        <li>Multiusuários</li>
+                        <li>Advanced analytics</li>
+                        <li>Consultoria especializada</li>
+                        <li>Time de dev dedicado p/ integração</li>
+                    </ul>
+                    
+                    <a href="signup.html?plan=checkout-enterprise" class="btn-outline">Falar com Vendas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção API & Integração (mantida igual) -->
+    <section class="pricing-section" id="api-section">
+        <div class="container">
+            <div class="hero-content">
+                <h2>API & Integração</h2>
+                <p>Para desenvolvedores e empresas que querem integrar o EmiPay diretamente em seus sistemas, apps ou marketplaces.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Plano Básico API -->
+                <div class="pricing-card">
+                    <div class="plan-name">Básico</div>
+                    <div class="plan-price">R$ 29<span class="plan-period">/mês</span></div>
+                    <p class="plan-description">Perfeito para pequenos negócios e startups</p>
+                    
+                    <ul class="features-list">
+                        <li>Até 100 transações/mês</li>
+                        <li>Suporte por email</li>
+                        <li>Dashboard básico</li>
+                        <li>Relatórios mensais</li>
+                        <li>Integração com 1 plataforma</li>
+                        <li>Documentação da API</li>
+                    </ul>
+                    
+                    <a href="signup.html?plan=api-basic" class="btn-outline">Começar Agora</a>
+                </div>
+
+                <!-- Plano Profissional API -->
+                <div class="pricing-card popular">
+                    <div class="popular-badge">Mais Popular</div>
+                    <div class="plan-name">Profissional</div>
+                    <div class="plan-price">R$ 79<span class="plan-period">/mês</span></div>
+                    <p class="plan-description">Ideal para empresas em crescimento</p>
+                    
+                    <ul class="features-list">
+                        <li>Até 1.000 transações/mês</li>
+                        <li>Suporte prioritário</li>
+                        <li>Dashboard avançado</li>
+                        <li>Relatórios em tempo real</li>
+                        <li>Integração com 5 plataformas</li>
+                        <li>API acesso completo</li>
+                        <li>Checkout personalizável</li>
+                        <li>Webhooks</li>
+                    </ul>
+                    
+                    <a href="signup.html?plan=api-pro" class="btn-primary">Começar Agora</a>
+                </div>
+
+                <!-- Plano Enterprise API -->
+                <div class="pricing-card">
+                    <div class="plan-name">Enterprise</div>
+                    <div class="plan-price">Custom</div>
+                    <p class="plan-description">Solução completa para grandes empresas</p>
+                    
+                    <ul class="features-list">
+                        <li>Transações ilimitadas</li>
+                        <li>Suporte 24/7 dedicado</li>
+                        <li>Dashboard customizado</li>
+                        <li>Relatórios avançados</li>
+                        <li>Integrações ilimitadas</li>
+                        <li>API completo</li>
+                        <li>Checkout white-label</li>
+                        <li>Consultoria especializada</li>
+                        <li>Sandbox environment</li>
+                    </ul>
+                    
+                    <a href="signup.html?plan=api-enterprise" class="btn-outline">Falar com Vendas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-grid">
+                <!-- FAQ Items mantidos iguais -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Qual a diferença entre Checkout e API?
+                        <i data-feather="chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <strong>Checkout EmiPay:</strong> Solução pronta para usar, sem desenvolvimento. Perfecto para quem quer começar rápido.<br><br>
+                        <strong>API & Integração:</strong> Para desenvolvedores que querem integrar diretamente em seus sistemas com total customização.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Posso migrar do Checkout para API depois?
+                        <i data-feather="chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Sim! Você pode começar com o Checkout EmiPay e migrar para a API quando seu negócio crescer. Mantemos todo seu histórico de transações.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Como funciona o teste grátis?
+                        <i data-feather="chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        No Checkout Pro e Enterprise, oferecemos 1 mês grátis sem compromisso. Você pode testar todos os recursos antes de decidir.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Pronto para Começar?</h2>
+            <p>Junte-se a milhares de empresas que confiam no EmiPay</p>
+            <a href="signup.html" class="btn-dark">Criar Conta Gratuita</a>
+        </div>
+    </section>
+
+    <script>
+        // Tabs functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const pricingSections = document.querySelectorAll('.pricing-section');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Show target section
+                    pricingSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(`${targetTab}-section`).classList.add('active');
+                });
+            });
+
+            // FAQ Accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Initialize Feather Icons
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+        });
+    </script>
+</body>
+</html>

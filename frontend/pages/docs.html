@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação - EmiPay</title>
+    <script src="../components/navbar.js"></script>
+    <script src="../components/footer.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #00c853, #69f0ae);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .docs-sidebar {
+            position: sticky;
+            top: 5rem;
+            height: calc(100vh - 6rem);
+            overflow-y: auto;
+        }
+        .docs-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #9ca3af;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            margin-bottom: 0.25rem;
+        }
+        .docs-link:hover {
+            color: #00c853;
+            background: rgba(0, 200, 83, 0.1);
+        }
+        .docs-link.active {
+            color: #00c853;
+            background: rgba(0, 200, 83, 0.1);
+            font-weight: 600;
+        }
+        .code-block {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Monaco', 'Consolas', monospace;
+            overflow-x: auto;
+        }
+        .code-comment {
+            color: #6b7280;
+        }
+        .code-string {
+            color: #00c853;
+        }
+        .code-keyword {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+    <emi-navbar></emi-navbar>
+
+    <div class="pt-20 min-h-screen">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">
+                    Documentação EmiPay
+                </h1>
+                <p class="text-gray-300 text-lg max-w-3xl mx-auto">
+                    Tudo que você precisa para integrar e usar o EmiPay no seu negócio
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="docs-sidebar">
+                        <nav class="space-y-2">
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Começando</h3>
+                                <a href="#introducao" class="docs-link active">Introdução</a>
+                                <a href="#quickstart" class="docs-link">Quick Start</a>
+                                <a href="#autenticacao" class="docs-link">Autenticação</a>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">API</h3>
+                                <a href="#produtos" class="docs-link">Produtos</a>
+                                <a href="#pagamentos" class="docs-link">Pagamentos</a>
+                                <a href="#webhooks" class="docs-link">Webhooks</a>
+                                <a href="#afiliados" class="docs-link">Afiliados</a>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Recursos</h3>
+                                <a href="#checkout" class="docs-link">Checkout</a>
+                                <a href="#dashboard" class="docs-link">Dashboard</a>
+                                <a href="#seguranca" class="docs-link">Segurança</a>
+                                <a href="#faq" class="docs-link">FAQ</a>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="lg:col-span-3">
+                    <!-- Introdução -->
+                    <section id="introducao" class="mb-12">
+                        <h2 class="text-2xl font-bold text-white mb-4">Introdução ao EmiPay</h2>
+                        <p class="text-gray-300 mb-4">
+                            O EmiPay é um gateway de pagamentos completo para produtos digitais, 
+                            com foco em alta conversão e experiência do usuário.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-8">
+                            <div class="bg-[#111] p-6 rounded-lg border border-[#333]">
+                                <div class="text-green-400 mb-3">
+                                    <i data-feather="zap" class="w-8 h-8"></i>
+                                </div>
+                                <h4 class="font-semibold text-white mb-2">Integração Rápida</h4>
+                                <p class="text-gray-400 text-sm">Comece em menos de 10 minutos com nossa API simples</p>
+                            </div>
+                            
+                            <div class="bg-[#111] p-6 rounded-lg border border-[#333]">
+                                <div class="text-green-400 mb-3">
+                                    <i data-feather="shield" class="w-8 h-8"></i>
+                                </div>
+                                <h4 class="font-semibold text-white mb-2">Segurança Máxima</h4>
+                                <p class="text-gray-400 text-sm">PCI DSS compliant e criptografia de ponta a ponta</p>
+                            </div>
+                            
+                            <div class="bg-[#111] p-6 rounded-lg border border-[#333]">
+                                <div class="text-green-400 mb-3">
+                                    <i data-feather="trending-up" class="w-8 h-8"></i>
+                                </div>
+                                <h4 class="font-semibold text-white mb-2">Alta Conversão</h4>
+                                <p class="text-gray-400 text-sm">Checkout otimizado com A/B testing automático</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Quick Start -->
+                    <section id="quickstart" class="mb-12">
+                        <h2 class="text-2xl font-bold text-white mb-4">Quick Start</h2>
+                        <p class="text-gray-300 mb-6">
+                            Comece a usar o EmiPay em 5 minutos seguindo estes passos:
+                        </p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-green-500 text-black rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">1</div>
+                                <div>
+                                    <h4 class="font-semibold text-white mb-2">Crie sua conta</h4>
+                                    <p class="text-gray-400">Registre-se em <a href="../pages/signup.html" class="text-green-400 hover:underline">emipay.com/signup</a></p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="bg-green-500 text-black rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">2</div>
+                                <div>
+                                    <h4 class="font-semibold text-white mb-2">Configure sua conta</h4>
+                                    <p class="text-gray-400">Adicione informações de negócio e métodos de saque</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="bg-green-500 text-black rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0 font-bold">3</div>
+                                <div>
+                                    <h4 class="font-semibold text-white mb-2">Integre a API</h4>
+                                    <p class="text-gray-400">Use nossa API para criar produtos e processar pagamentos</p>
+                                    <div class="code-block mt-2">
+                                        <span class="code-comment">// Criar um produto</span><br>
+                                        <span class="code-keyword">const</span> product = {<br>
+                                        &nbsp;&nbsp;name: <span class="code-string">"Meu Produto Digital"</span>,<br>
+                                        &nbsp;&nbsp;price: <span class="code-string">97.00</span>,<br>
+                                        &nbsp;&nbsp;description: <span class="code-string">"Descrição do produto"</span><br>
+                                        };<br><br>
+                                        <span class="code-comment">// Gerar link de pagamento</span><br>
+                                        <span class="code-keyword">const</span> paymentLink = <span class="code-string">`https://checkout.emipay.com/pay/</span>${productId}<span class="code-string">`</span>;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Autenticação -->
+                    <section id="autenticacao" class="mb-12">
+                        <h2 class="text-2xl font-bold text-white mb-4">Autenticação API</h2>
+                        <p class="text-gray-300 mb-4">
+                            Todas as requisições à API do EmiPay devem incluir seu token de autenticação.
+                        </p>
+
+                        <div class="code-block">
+                            <span class="code-comment">// Obter token de autenticação</span><br>
+                            <span class="code-keyword">const</span> response = <span class="code-keyword">await</span> fetch(<span class="code-string">'https://api.emipay.com/auth/login'</span>, {<br>
+                            &nbsp;&nbsp;method: <span class="code-string">'POST'</span>,<br>
+                            &nbsp;&nbsp;headers: {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span><br>
+                            &nbsp;&nbsp;},<br>
+                            &nbsp;&nbsp;body: <span class="code-keyword">JSON</span>.stringify({<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;email: <span class="code-string">"seu@email.com"</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;password: <span class="code-string">"sua-senha"</span><br>
+                            &nbsp;&nbsp;})<br>
+                            });<br><br>
+                            <span class="code-comment">// Usar token nas requisições</span><br>
+                            <span class="code-keyword">const</span> headers = {<br>
+                            &nbsp;&nbsp;<span class="code-string">'Authorization'</span>: <span class="code-string">'Bearer '</span> + token,<br>
+                            &nbsp;&nbsp;<span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span><br>
+                            };
+                        </div>
+                    </section>
+
+                    <!-- Produtos -->
+                    <section id="produtos" class="mb-12">
+                        <h2 class="text-2xl font-bold text-white mb-4">Gerenciar Produtos</h2>
+                        
+                        <div class="code-block">
+                            <span class="code-comment">// Criar um produto</span><br>
+                            <span class="code-keyword">const</span> createProduct = <span class="code-keyword">async</span> (productData) => {<br>
+                            &nbsp;&nbsp;<span class="code-keyword">const</span> response = <span class="code-keyword">await</span> fetch(<span class="code-string">'https://api.emipay.com/products'</span>, {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;method: <span class="code-string">'POST'</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;headers,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;body: <span class="code-keyword">JSON</span>.stringify(productData)<br>
+                            &nbsp;&nbsp;});<br>
+                            &nbsp;&nbsp;<span class="code-keyword">return await</span> response.json();<br>
+                            };<br><br>
+                            <span class="code-comment">// Exemplo de uso</span><br>
+                            <span class="code-keyword">const</span> product = <span class="code-keyword">await</span> createProduct({<br>
+                            &nbsp;&nbsp;name: <span class="code-string">"Curso de Marketing"</span>,<br>
+                            &nbsp;&nbsp;price: 297.00,<br>
+                            &nbsp;&nbsp;description: <span class="code-string">"Curso completo de marketing digital"</span>,<br>
+                            &nbsp;&nbsp;type: <span class="code-string">"digital"</span><br>
+                            });
+                        </div>
+                    </section>
+
+                    <!-- FAQ -->
+                    <section id="faq" class="mb-12">
+                        <h2 class="text-2xl font-bold text-white mb-6">Perguntas Frequentes</h2>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-[#111] p-6 rounded-lg border border-[#333]">
+                                <h4 class="font-semibold text-white mb-2">Quanto tempo leva para o saque?</h4>
+                                <p class="text-gray-400">Saques são processados em até 2 minutos para contas verificadas.</p>
+                            </div>
+                            
+                            <div class="bg-[#111] p-6 rounded-lg border border-[#333]">
+                                <h4 class="font-semibold text-white mb-2">Quais métodos de pagamento são aceitos?</h4>
+                                <p class="text-gray-400">Cartão de crédito, PIX, boleto bancário e carteiras digitais.</p>
+                            </div>
+                            
+                            <div class="bg-[#111] p-6 rounded-lg border border-[#333]">
+                                <h4 class="font-semibold text-white mb-2">Há limite de vendas?</h4>
+                                <p class="text-gray-400">Planos Growth e Pro têm vendas ilimitadas. Free tem limite de R$ 5.000/mês.</p>
+                            </div>
+                            
+                            <div class="bg-[#111] p-6 rounded-lg border border-[#333]">
+                                <h4 class="font-semibold text-white mb-2">Como funciona o programa de afiliados?</h4>
+                                <p class="text-gray-400">Seus produtos aparecem automaticamente para afiliados. Você define a comissão.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Support -->
+                    <section class="bg-gradient-to-r from-green-900/20 to-black p-8 rounded-2xl text-center">
+                        <h3 class="text-2xl font-bold text-white mb-4">Precisa de ajuda?</h3>
+                        <p class="text-gray-300 mb-6">
+                            Nossa equipe de suporte está disponível para ajudar você
+                        </p>
+                        <div class="flex gap-4 justify-center flex-wrap">
+                            <a href="mailto:support@emipay.com" class="bg-green-500 hover:bg-green-600 text-black font-semibold px-6 py-3 rounded-lg transition duration-300">
+                                <i data-feather="mail" class="w-4 h-4 inline mr-2"></i>
+                                Email
+                            </a>
+                            <a href="#" onclick="emipay.showNotification('Chat em desenvolvimento', 'info')" class="border border-green-500 text-green-400 hover:bg-green-500 hover:text-black font-semibold px-6 py-3 rounded-lg transition duration-300">
+                                <i data-feather="message-circle" class="w-4 h-4 inline mr-2"></i>
+                                Chat Online
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <emi-footer></emi-footer>
+
+    <script>
+        // Smooth scroll para âncoras
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof feather !== 'undefined') {
+                feather.replace();
+            }
+
+            // Ativar links da sidebar
+            const links = document.querySelectorAll('.docs-link');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        // Remover active de todos
+                        links.forEach(l => l.classList.remove('active'));
+                        // Adicionar active no atual
+                        this.classList.add('active');
+                        
+                        // Scroll suave
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Ativar link baseado no scroll
+            const sections = document.querySelectorAll('section[id]');
+            window.addEventListener('scroll', function() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                links.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

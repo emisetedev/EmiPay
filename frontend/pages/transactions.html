@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transações - EmiPay</title>
+    <script src="../components/navbar.js"></script>
+    <script src="../components/footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .page-title {
+            font-size: 1.875rem;
+            color: #fff;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #333;
+            border-radius: 0.5rem;
+            background: #111;
+            color: #fff;
+            min-width: 150px;
+        }
+        
+        .transactions-table {
+            background: #111;
+            border-radius: 0.75rem;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+        
+        .table-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            padding: 1rem 1.5rem;
+            background: #0d0d0d;
+            border-bottom: 1px solid #333;
+            font-weight: 600;
+            color: #9ca3af;
+        }
+        
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #333;
+            align-items: center;
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .table-row:hover {
+            background: #0d0d0d;
+        }
+        
+        .transaction-id {
+            font-family: monospace;
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .transaction-product {
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .transaction-amount {
+            font-weight: 600;
+        }
+        
+        .amount-positive {
+            color: #00c853;
+        }
+        
+        .amount-negative {
+            color: #ef4444;
+        }
+        
+        .transaction-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-completed {
+            background: rgba(0, 200, 83, 0.1);
+            color: #00c853;
+        }
+        
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+        
+        .status-failed {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+        
+        .transaction-method {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #9ca3af;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding: 1rem 0;
+            border-top: 1px solid #333;
+        }
+        
+        .pagination-info {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #333;
+            background: #111;
+            color: #fff;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination-btn:hover:not(:disabled) {
+            border-color: #00c853;
+            color: #00c853;
+        }
+        
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-export {
+            background: transparent;
+            border: 1px solid #333;
+            color: #9ca3af;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-export:hover {
+            border-color: #00c853;
+            color: #00c853;
+        }
+    </style>
+</head>
+<body>
+    <emi-navbar></emi-navbar>
+    
+    <div class="dashboard-container">
+        <div class="page-header">
+            <h1 class="page-title">Transações</h1>
+            <button class="btn-export">
+                <i data-feather="download"></i>
+                Exportar CSV
+            </button>
+        </div>
+        
+        <div class="filters">
+            <select class="filter-select" id="statusFilter">
+                <option value="">Todos os status</option>
+                <option value="completed">Concluídas</option>
+                <option value="pending">Pendentes</option>
+                <option value="failed">Falhas</option>
+            </select>
+            
+            <select class="filter-select" id="typeFilter">
+                <option value="">Todos os tipos</option>
+                <option value="sale">Vendas</option>
+                <option value="withdrawal">Saques</option>
+                <option value="refund">Reembolsos</option>
+            </select>
+            
+            <select class="filter-select" id="dateFilter">
+                <option value="">Todo período</option>
+                <option value="today">Hoje</option>
+                <option value="week">Esta semana</option>
+                <option value="month">Este mês</option>
+            </select>
+        </div>
+        
+        <div class="transactions-table">
+            <div class="table-header">
+                <div>ID</div>
+                <div>Produto</div>
+                <div>Valor</div>
+                <div>Status</div>
+                <div>Método</div>
+            </div>
+            
+            <div id="transactionsList">
+                <!-- Transações carregadas via JavaScript -->
+            </div>
+        </div>
+        
+        <div class="pagination">
+            <div class="pagination-info" id="paginationInfo">
+                Mostrando 1-10 de 45 transações
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i data-feather="chevron-left"></i>
+                </button>
+                <button class="pagination-btn" id="nextBtn">
+                    <i data-feather="chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <emi-footer></emi-footer>
+    
+    <script>
+        // Dados de exemplo
+        const transactions = [
+            {
+                id: "TX-001",
+                product: "Curso de Marketing Digital",
+                amount: 297.00,
+                type: "sale",
+                status: "completed",
+                method: "credit_card",
+                date: "2024-01-15 14:30",
+                customer: "joao@email.com"
+            },
+            {
+                id: "TX-002",
+                product: "E-book: Guia do Empreendedor",
+                amount: 47.00,
+                type: "sale",
+                status: "completed",
+                method: "pix",
+                date: "2024-01-15 12:15",
+                customer: "maria@email.com"
+            },
+            {
+                id: "TX-003",
+                product: "Saque",
+                amount: -500.00,
+                type: "withdrawal",
+                status: "pending",
+                method: "pix",
+                date: "2024-01-14 16:45",
+                customer: ""
+            },
+            {
+                id: "TX-004",
+                product: "Template de Site",
+                amount: 97.00,
+                type: "sale",
+                status: "failed",
+                method: "credit_card",
+                date: "2024-01-14 11:20",
+                customer: "pedro@email.com"
+            }
+        ];
+        
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        
+        function renderTransactions() {
+            const list = document.getElementById('transactionsList');
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            
+            const filteredTransactions = transactions.filter(transaction => {
+                if (statusFilter && transaction.status !== statusFilter) return false;
+                if (typeFilter && transaction.type !== typeFilter) return false;
+                return true;
+            });
+            
+            list.innerHTML = filteredTransactions.map(transaction => `
+                <div class="table-row">
+                    <div class="transaction-id">${transaction.id}</div>
+                    <div class="transaction-product">${transaction.product}</div>
+                    <div class="transaction-amount ${transaction.amount > 0 ? 'amount-positive' : 'amount-negative'}">
+                        R$ ${Math.abs(transaction.amount).toFixed(2)}
+                    </div>
+                    <div>
+                        <span class="transaction-status status-${transaction.status}">
+                            ${getStatusText(transaction.status)}
+                        </span>
+                    </div>
+                    <div class="transaction-method">
+                        <i data-feather="${getMethodIcon(transaction.method)}"></i>
+                        ${getMethodText(transaction.method)}
+                    </div>
+                </div>
+            `).join('');
+            
+            // Atualizar informações de paginação
+            document.getElementById('paginationInfo').textContent = 
+                `Mostrando ${filteredTransactions.length} transações`;
+                
+            setTimeout(() => {
+                if (typeof feather !== 'undefined') {
+                    feather.replace();
+                }
+            }, 100);
+        }
+        
+        function getStatusText(status) {
+            const statusMap = {
+                'completed': 'Concluída',
+                'pending': 'Pendente',
+                'failed': 'Falha'
+            };
+            return statusMap[status] || status;
+        }
+        
+        function getMethodIcon(method) {
+            const iconMap = {
+                'credit_card': 'credit-card',
+                'pix': 'dollar-sign',
+                'boleto': 'file-text',
+                'default': 'dollar-sign'
+            };
+            return iconMap[method] || iconMap.default;
+        }
+        
+        function getMethodText(method) {
+            const methodMap = {
+                'credit_card': 'Cartão',
+                'pix': 'Pix',
+                'boleto': 'Boleto'
+            };
+            return methodMap[method] || method;
+        }
+        
+        // Event listeners para filtros
+        document.getElementById('statusFilter').addEventListener('change', renderTransactions);
+        document.getElementById('typeFilter').addEventListener('change', renderTransactions);
+        document.getElementById('dateFilter').addEventListener('change', renderTransactions);
+        
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', renderTransactions);
+    </script>
+</body>
+</html>

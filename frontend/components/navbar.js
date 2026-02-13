@@ -167,14 +167,14 @@ class EmiNavbar extends HTMLElement {
             <nav>
                 <div class="container">
                     <div class="nav-content">
-                        <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/index.html" class="logo">EmiPay</a>
+                        <a href="./index.html" class="logo">EmiPay</a>
                         
                         <div class="desktop-menu">
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/features.html" class="nav-link">Recursos</a>
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/pricing.html" class="nav-link">Preços</a>
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/docs.html" class="nav-link">Documentação</a>
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/login.html" class="nav-link">Entrar</a>
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/signup.html" class="btn-signup">Cadastre-se</a>
+                            <a href="./pages/features.html" class="nav-link">Recursos</a>
+                            <a href="./pages/pricing.html" class="nav-link">Preços</a>
+                            <a href="./pages/docs.html" class="nav-link">Documentação</a>
+                            <a href="./pages/login.html" class="nav-link">Entrar</a>
+                            <a href="./pages/signup.html" class="btn-signup">Cadastre-se</a>
                         </div>
                         
                         <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -184,12 +184,12 @@ class EmiNavbar extends HTMLElement {
                     
                     <div class="mobile-menu" id="mobileMenu">
                         <div class="mobile-menu-content">
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/features.html" class="mobile-link">Recursos</a>
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/pricing.html" class="mobile-link">Preços</a>
-                            <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/docs.html" class="mobile-link">Documentação</a>
+                            <a href="./pages/features.html" class="mobile-link">Recursos</a>
+                            <a href="./pages/pricing.html" class="mobile-link">Preços</a>
+                            <a href="./pages/docs.html" class="mobile-link">Documentação</a>
                             <div class="mobile-divider">
-                                <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/login.html" class="mobile-link">Entrar</a>
-                                <a href="C:/Users/gabri/Desktop/EMPRESA DEV/EmiPay/frontend/pages/signup.html" class="mobile-link" style="color: #000; background: linear-gradient(135deg, #00c853, #69f0ae); font-weight: 600;">Cadastre-se</a>
+                                <a href="./pages/login.html" class="mobile-link">Entrar</a>
+                                <a href="./pages/signup.html" class="mobile-link" style="color: #000; background: linear-gradient(135deg, #00c853, #69f0ae); font-weight: 600;">Cadastre-se</a>
                             </div>
                         </div>
                     </div>
